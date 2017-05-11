@@ -84,6 +84,16 @@
           line-height: 300px;
         }
         
+        #glyph span.outline {
+          color: transparent;
+          text-stroke: 3px #fc5454;
+          -webkit-text-stroke: 3px #fc5454;
+          font-family: 'antique-font-game';
+        }
+        #glyph span:not(.outline) {
+          z-index: 1005;
+        }
+        
         [contenteditable]:focus {
             outline: 0px solid transparent;
         }
@@ -112,15 +122,65 @@
             z-index: 10001;
         }
         
+        #startgame {
+          z-index: 1000000;
+          position: absolute;
+          bottom: 50px;
+          padding: 20px 40px;
+          font-size: 15px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        
+        .progress {
+          width: 100%;
+          height: 20px;
+          z-index: 100000;
+        }
+
+        .progress-wrap {
+          background: #333;
+          margin: 0;
+          overflow: hidden;
+          position: relative;
+          z-index: 100000;
+        }
+        .progress-wrap .progress-bar {
+          background: #fce68c;
+          left: 0;
+          position: absolute;
+          top: 0;
+          z-index: 100000;
+        }
+        
+        .progress-wrap .progress-bar.loading {
+          animation: loading 30s linear;
+        }
+        
+        @keyframes loading {
+          0% {
+            left: 0;
+          }
+          100% {
+            left: 100%;
+          }
+        }
+        
     </style>
     
 </head>
 <body>
-
+    <button id="startgame">Start game !</button>
     <div id="skeletonLogger">logger</div>
     <canvas id="skeletonContainer"></canvas>
+    <div class="progress-wrap progress" data-progress-percent="0">
+      <div class="progress-bar progress"></div>
+    </div>
     <div id="glyph">
-      <span contenteditable="true">
+      <span contenteditable="true" class="main">
+        Hello puces typo
+      </span>
+      <span class="outline">
         Hello puces typo
       </span>
     </div>
