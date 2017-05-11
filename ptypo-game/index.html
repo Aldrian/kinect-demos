@@ -3,9 +3,9 @@
 <head>
     <title>Prototypo-kinect</title>
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
-    
+
     <script type="text/javascript" src="sdk/Kinect-1.8.0.js"></script>
-    
+
     <script type="text/javascript" src="lib/kinect-gestures.js"></script>
     <script type="text/javascript" src="lib/gesture-checker.js"></script>
     <script type="text/javascript" src="lib/gesture-manager.js"></script>
@@ -27,7 +27,7 @@
   	<script src="src/lib.js"></script>
   	<script src="src/main.js"></script>
 
-    
+
     <style type="text/css">
         html {
             width: 100%;
@@ -59,6 +59,7 @@
           font-family: 'antique-font';
           color: #333;
           background: linear-gradient(to right bottom, #fbe173, #fbbf73);
+          background-color: #fbe173;
           width: 100%;
           height: 100%;
           text-transform: lowercase;
@@ -68,8 +69,17 @@
           z-index: 1000;
           transform: translate3d(-50%,-50%,0);
           -webkit-transform: translate3d(-50%,-50%,0);
+          transition: background .3s ease;
         }
-        
+
+        #glyph.success {
+          background: #24d390;
+        }
+        #glyph.error {
+          background: #fc5454;
+        }
+
+
         #glyph span {
           position: absolute;
           left: 50%;
@@ -83,7 +93,7 @@
           font-size: 300px;
           line-height: 300px;
         }
-        
+
         #glyph span.outline {
           color: transparent;
           text-stroke: 3px #fc5454;
@@ -93,11 +103,11 @@
         #glyph span:not(.outline) {
           z-index: 1005;
         }
-        
+
         [contenteditable]:focus {
             outline: 0px solid transparent;
         }
-        
+
         ::selection {
           background: #fc5454;
           color: white;
@@ -121,17 +131,46 @@
             top:0;
             z-index: 10001;
         }
-        
-        #startgame {
+
+        .button {
           z-index: 1000000;
           position: absolute;
-          bottom: 50px;
-          padding: 20px 40px;
+          bottom: 10px;
+          padding: 10px 20px;
           font-size: 15px;
+          left: 10px;
+          outline: none;
+          border: 2px solid #333;
+          border-radius: 3px;
+          color: #333;
+          letter-spacing: 0.1em;
+          background: transparent;
+          font-weight: 600;
+          transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+          cursor: pointer;
+        }
+        .button:hover {
+          color: #fbe173;
+          background: #333;
+        }
+
+        #stopgame {
+          display: none;
+        }
+
+        #score {
+          position: absolute;
+          bottom: 50px;
           left: 50%;
           transform: translateX(-50%);
+          color: #333;
+          font-size: 30px;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          display: none;
+          z-index: 1000000;
         }
-        
+
         .progress {
           width: 100%;
           height: 20px;
@@ -152,11 +191,11 @@
           top: 0;
           z-index: 100000;
         }
-        
+
         .progress-wrap .progress-bar.loading {
           animation: loading 30s linear;
         }
-        
+
         @keyframes loading {
           0% {
             left: 0;
@@ -165,12 +204,13 @@
             left: 100%;
           }
         }
-        
+
     </style>
-    
+
 </head>
 <body>
-    <button id="startgame">Start game !</button>
+    <button id="startgame" class="button">Start game !</button>
+    <button id="stopgame" class="button">Stop game</button>
     <div id="skeletonLogger">logger</div>
     <canvas id="skeletonContainer"></canvas>
     <div class="progress-wrap progress" data-progress-percent="0">
@@ -178,12 +218,13 @@
     </div>
     <div id="glyph">
       <span contenteditable="true" class="main">
-        Hello puces typo
+        Les puces <br> typo
       </span>
       <span class="outline">
-        Hello puces typo
+        Les puces <br> typo
       </span>
     </div>
+    <span id="score">Score: 0</span>
     <canvas id="canvas" style="display:none;"></canvas>
 </body>
 </html>
