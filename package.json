@@ -1,0 +1,24 @@
+{
+  "name": "KinectGestures",
+  "version": "0.0.2",
+  "description": "A library to detect gestures via Kinect (1.8.0) SDK",
+  "main": "lib/kinect-gestures.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kinect",
+    "gestures"
+  ],
+  "author": "Panurge Web Studio",
+  "license": "unlicensed",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "load-grunt-tasks": "^0.6.0"
+  }
+}
