@@ -39,7 +39,7 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
                   numSkeleton++;
                 });
                 let deltaz = (skeletonSumZ / numSkeleton);
-                Ptypo.changeParam(Math.abs(parseFloat(40 * deltaz) + 1), 'thickness', 'antique-font');
+                Ptypo.changeParam(Math.abs(parseFloat(35 * deltaz) + 1), 'thickness', 'antique-font');
                 
                 let deltax = (skeletonSumX / numSkeleton);
                 Ptypo.changeParam(parseFloat((0.6 + deltax)), 'curviness', 'antique-font');
