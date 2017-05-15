@@ -3,6 +3,22 @@
 
 $(document).ready(function () {
   
+  Ptypo.createFont('grotesk-font', 'grotesk').then(() => {
+    Ptypo['grotesk-font'].subset = text.data[text.index].one + text.data[text.index].two
+      + text.data[(text.index + 1) % text.data.length].one + text.data[(text.index + 1) % text.data.length].two
+    text.index++;
+    setInterval(function () {
+      $('#glyph span.one').html(text.data[text.index].one);
+      $('#glyph span.two').html(text.data[text.index].two);
+	    Ptypo['grotesk-font'].subset = text.data[text.index].one + text.data[text.index].two
+		    + text.data[(text.index + 1) % text.data.length].one + text.data[(text.index + 1) % text.data.length].two
+      if (text.index + 1 > text.data.length) {
+        text.index = 0;
+      }
+      else text.index++;
+    }, 10000);
+  });
+  
     var text = {
       'data': [
         {'one':'ARTISTS', two:' ROBOTS'},
@@ -42,21 +58,7 @@ $(document).ready(function () {
     };
     $('#glyph span.one').html(text.data[text.index].one);
     $('#glyph span.two').html(text.data[text.index].two);
-    text.index++;
-    setInterval(function () {
-      $('#glyph span.one').html(text.data[text.index].one);
-      $('#glyph span.two').html(text.data[text.index].two);
-	    Ptypo['grotesk-font'].subset = text.data[text.index].one + text.data[text.index].two
-		    + text.data[(text.index + 1) % text.data.length].one + text.data[(text.index + 1) % text.data.length].two
-      if (text.index + 1 > text.data.length) {
-        text.index = 0;
-      }
-      else text.index++;
-
-	    Ptypo.tween(400, 'thickness', 'grotesk-font', 60, 5, function(name, font) {
-		    Ptypo.reset(font);
-	    });
-    }, 10000);
+    
 
     var isSensorConnected = false;
 
@@ -114,9 +116,6 @@ $(document).ready(function () {
       return Math.floor(Math.random() * (max - min)) + min;
     }
     
-    
-    Ptypo.createFont('grotesk-font', 'grotesk');
-    
     // Game logics
     var GAME_STATUS = 'waiting';
         loggedPlayers = 0;
@@ -134,19 +133,11 @@ $(document).ready(function () {
     //KinectGestures.on(KinectGestures.EventType.PlayerEngagedAgain, function(event){});    
 
     KinectGestures.on(KinectGestures.GestureType.Wave, function(event){
-      console.log('wave');
-      Ptypo.changeParam(-0.8, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-0.6, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-0.4, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-0.2, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-0.4, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-0.6, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-0.8, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-1, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-1.2, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-1.3, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-1.2, 'contrast', 'grotesk-font');
-      Ptypo.changeParam(-1, 'contrast', 'grotesk-font');
+	    Ptypo.tween(-0.15, '_contrast', 'grotesk-font', 30, 0.3, function(name, font) {
+		    Ptypo.tween(-1.3, name, font, 30, 0.3, function(name, font) {
+          Ptypo.tween(-1, name, font, 30, 0.1);
+        });
+	    });
     });
     
     //KinectGestures.on(KinectGestures.GestureType.Swipe, function(event){});
@@ -160,11 +151,7 @@ $(document).ready(function () {
     //KinectGestures.on(KinectGestures.GestureType.JumpPositionHip, function(event){});
     
     KinectGestures.on(KinectGestures.EventType.PlayerLost, function(event){
-        Ptypo.changeParam(115, 'thickness', 'grotesk-font');
-        Ptypo.changeParam(0.6, 'curviness', 'grotesk-font');
-        Ptypo.changeParam(1, 'width', 'grotesk-font');
-        Ptypo.changeParam(1, 'crossbar', 'grotesk-font');
-        Ptypo.changeParam(0, 'slant', 'grotesk-font');
+        Ptypo.reset('grotesk-font');
     });
 
     //KinectGestures.on(KinectGestures.GestureType.PlayerPosition, function(event){});

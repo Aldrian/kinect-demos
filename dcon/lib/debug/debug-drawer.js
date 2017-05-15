@@ -40,7 +40,7 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
                 Ptypo.changeParam(75 * (4 - proximity), 'thickness', 'grotesk-font');
                 
                 let deltax = (skeletonSumX / numSkeleton);
-                Ptypo.changeParam(Math.abs(0.6 + (deltax / 2)), 'curviness', 'grotesk-font');
+                Ptypo.changeParam(Math.abs(0.6 + deltax) * 2, 'curviness', 'grotesk-font');
                 
                 let deltahandsy = (skeletonSumHandsY / numSkeleton);
                 Ptypo.changeParam(Math.abs( 1 + deltahandsy), 'crossbar', 'grotesk-font');
@@ -72,7 +72,7 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
             }
             
             // Hands
-            let yhands = Math.abs(skeleton.joints[7].position.y - skeleton.joints[11].position.y);
+            let yhands = (skeleton.joints[7].position.y + skeleton.joints[11].position.y) / 2;
             let xhands = Math.abs(skeleton.joints[7].position.x - skeleton.joints[11].position.x);
             
             //angle 
