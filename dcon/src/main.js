@@ -109,7 +109,7 @@ $(document).ready(function () {
     }
     
     
-    Ptypo.createFont('antique-font', 'antique');
+    Ptypo.createFont('grotesk-font', 'grotesk');
     
     // Game logics
     var GAME_STATUS = 'waiting';
@@ -127,7 +127,21 @@ $(document).ready(function () {
     
     //KinectGestures.on(KinectGestures.EventType.PlayerEngagedAgain, function(event){});    
 
-    //KinectGestures.on(KinectGestures.GestureType.Wave, function(event){});
+    KinectGestures.on(KinectGestures.GestureType.Wave, function(event){
+      console.log('wave');
+      Ptypo.changeParam(-0.8, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-0.6, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-0.4, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-0.2, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-0.4, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-0.6, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-0.8, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-1, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-1.2, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-1.3, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-1.2, 'contrast', 'grotesk-font');
+      Ptypo.changeParam(-1, 'contrast', 'grotesk-font');
+    });
     
     //KinectGestures.on(KinectGestures.GestureType.Swipe, function(event){});
 
@@ -140,12 +154,11 @@ $(document).ready(function () {
     //KinectGestures.on(KinectGestures.GestureType.JumpPositionHip, function(event){});
     
     KinectGestures.on(KinectGestures.EventType.PlayerLost, function(event){
-        $('#glyph').removeClass('stroboscopic');
-        Ptypo.changeParam(parseFloat(80), 'thickness', 'antique-font');
-        Ptypo.changeParam(parseFloat(0.6), 'curviness', 'antique-font');
-        $('#glyph span').css({
-          'color' : '',
-        });
+        Ptypo.changeParam(115, 'thickness', 'grotesk-font');
+        Ptypo.changeParam(0.6, 'curviness', 'grotesk-font');
+        Ptypo.changeParam(1, 'width', 'grotesk-font');
+        Ptypo.changeParam(1, 'crossbar', 'grotesk-font');
+        Ptypo.changeParam(0, 'slant', 'grotesk-font');
     });
 
     //KinectGestures.on(KinectGestures.GestureType.PlayerPosition, function(event){});

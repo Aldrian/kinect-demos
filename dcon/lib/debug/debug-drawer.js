@@ -22,38 +22,34 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
             }
             if (skeletonPromises.length > 0) {
               let skeletonSumX = 0;
-              let skeletonSumY = 0;
               let skeletonSumZ = 0;
               let numSkeleton = 0;
+              let skeletonSumHandsX = 0; 
+              let skeletonSumHandsY = 0;
+              let skeletonAngle = 0;
               Promise.all(skeletonPromises).then((results) => {
                 results.map((sums) => {
                   skeletonSumZ += (sums.z / sums.length);
                   skeletonSumX += (sums.x / sums.length);
-                  skeletonSumY += (sums.y / 6);
+                  skeletonSumHandsX += sums.xhands;
+                  skeletonSumHandsY += sums.yhands;
+                  skeletonAngle += sums.angle;
                   numSkeleton++;
                 });
                 let proximity = (skeletonSumZ / numSkeleton);
-                Ptypo.changeParam(((4 - proximity) * 80), 'thickness', 'antique-font');
-                if (proximity < 1.2 && !$('#glyph span').hasClass('stroboscopic')) {
-                  $('#glyph span').css({
-                    'color' : '',
-                  });
-                  $('#glyph').addClass('stroboscopic');
-                }
-                else {
-                  $('#glyph').removeClass('stroboscopic');
-                  $('#glyph span').css({
-                    'color' : '#FFFF' + parseInt((4 - proximity) * 80).toString(16),
-                    //'font-size' : parseInt(40 + ((4 - proximity) * 6)).toString() + 'px',
-                    //'line-height' : (1.4 - (3 - proximity)/5).toString(),
-                  });
-                }
+                Ptypo.changeParam(75 * (4 - proximity), 'thickness', 'grotesk-font');
                 
                 let deltax = (skeletonSumX / numSkeleton);
-                Ptypo.changeParam(parseFloat((1 + deltax)), 'curviness', 'antique-font');
+                Ptypo.changeParam(Math.abs(0.6 + (deltax / 2)), 'curviness', 'grotesk-font');
                 
-                let deltay = (skeletonSumY / numSkeleton);
-                Ptypo.changeParam(((deltay + 1) * 5), 'width', 'antique-font');
+                let deltahandsy = (skeletonSumHandsY / numSkeleton);
+                Ptypo.changeParam(Math.abs( 1 + deltahandsy), 'crossbar', 'grotesk-font');
+                let deltahandsx = (skeletonSumHandsX / numSkeleton);
+                Ptypo.changeParam(deltahandsx * 4, 'width', 'grotesk-font');
+                
+                let deltaAngle = (skeletonAngle / numSkeleton);
+                let radAngle = Math.atan(1.8 / deltaAngle);
+                Ptypo.changeParam((90 - (radAngle * (180 / Math.PI)) * 3 ), 'slant', 'grotesk-font');
               });
             };
         }
@@ -75,18 +71,18 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
                 sumx = sumx + joint.position.x;
             }
             
-            // Y axis
-            let sumy = 0;
-            for (let iJoint = 5; iJoint < 12; ++iJoint) {
-                if (iJoint !== 8) {
-                  let joint = skeleton.joints[iJoint];
-                  sumy = sumy + joint.position.y;
-                }
-            }
+            // Hands
+            let yhands = Math.abs(skeleton.joints[7].position.y - skeleton.joints[11].position.y);
+            let xhands = Math.abs(skeleton.joints[7].position.x - skeleton.joints[11].position.x);
+            
+            //angle 
+            let angle = (skeleton.joints[3].position.x - skeleton.joints[0].position.x);
             resolve({
               x: sumx,
-              y: sumy,
+              xhands,
+              yhands,
               z: sumz,
+              angle,
               length: skeleton.joints.length
             });
           });
