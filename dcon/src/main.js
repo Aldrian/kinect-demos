@@ -46,10 +46,16 @@ $(document).ready(function () {
     setInterval(function () {
       $('#glyph span.one').html(text.data[text.index].one);
       $('#glyph span.two').html(text.data[text.index].two);
+	    Ptypo['grotesk-font'].subset = text.data[text.index].one + text.data[text.index].two
+		    + text.data[(text.index + 1) % text.data.length].one + text.data[(text.index + 1) % text.data.length].two
       if (text.index + 1 > text.data.length) {
         text.index = 0;
       }
       else text.index++;
+
+	    Ptypo.tween(400, 'thickness', 'grotesk-font', 60, 5, function(name, font) {
+		    Ptypo.reset(font);
+	    });
     }, 10000);
 
     var isSensorConnected = false;

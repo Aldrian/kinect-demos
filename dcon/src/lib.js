@@ -2,6 +2,8 @@
 	window.Ptypo = {};
 
 	var values = Ptypo.values = {};
+	var init = Ptypo.init = {};
+	var tweens = Ptypo.tweens = {};
 	Ptypo.createFont = function( name, font ) {
 		return window.PrototypoCanvas.init({
 			canvas: document.getElementById('canvas'),
@@ -24,8 +26,11 @@
 		}).then(function (data) {
 			console.log(data);
 			values[name] = {};
+			tweens[name] = {};
+			init[name] = {};
 			data.controls.forEach(function( control ) {
 				control.parameters.forEach(function(param) {
+					init[name][param.name] = param.init;
 					values[name][param.name] = param.init;
 				});
 			});
@@ -44,5 +49,41 @@
 
 	Ptypo.getParam = function(name, font) {
 		return values[font][name];
+	}
+
+	Ptypo.reset = function(font) {
+		Object.keys(init[font]).forEach(function(key) {
+			values[font][key] = init[font][key];
+		});
+		Ptypo[font].update(values[font]);
+	}
+
+	Ptypo.tween = function(value, name, font, steps, aDuration, cb) {
+		const duration = aDuration * 1000;
+		if (tweens[font][name]) {
+			clearInterval(tweens[font][name].intervalId);
+		}
+
+		var start = values[font][name];
+
+		tweens[font][name] = {
+			target: value,
+		}
+
+		var elapsed = 0;
+		var id = setInterval(function() {
+			if (elapsed >= duration) {
+				clearInterval(id);
+				if (cb) {
+					cb(name, font);
+				}
+				return;
+			}
+			var newValue = (start * (duration - elapsed) + value * elapsed) / duration;
+			Ptypo.changeParam(newValue, name, font);
+			elapsed += duration / steps;
+		}, duration / steps);
+
+		tweens[font][name].intervalId = id;
 	}
 }(window))
