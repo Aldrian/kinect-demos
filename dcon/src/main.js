@@ -151,7 +151,11 @@ $(document).ready(function () {
     //KinectGestures.on(KinectGestures.GestureType.JumpPositionHip, function(event){});
     
     KinectGestures.on(KinectGestures.EventType.PlayerLost, function(event){
-        Ptypo.reset('grotesk-font');
+        Ptypo.tween(115, 'thickness', 'grotesk-font', 60, 2);
+        Ptypo.tween(0.6, 'curviness', 'grotesk-font', 60, 2);
+        Ptypo.tween(1, 'width', 'grotesk-font', 60, 2);
+        Ptypo.tween(1, 'crossbar', 'grotesk-font', 60, 2);
+        Ptypo.tween(0, 'slant', 'grotesk-font', 60, 2);
     });
 
     //KinectGestures.on(KinectGestures.GestureType.PlayerPosition, function(event){});
