@@ -41,7 +41,7 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
                 $("#thickness .value").html((75 * (4 - proximity)).toFixed(2));
                 
                 let deltax = (skeletonSumX / numSkeleton);
-                Ptypo.changeParam((deltax) * 4, 'curviness', 'grotesk-font');
+                Ptypo.changeParam((deltax + 0.5) * 4, 'curviness', 'grotesk-font');
                 $("#curviness .value").html(((deltax) * 4).toFixed(2));
                 
                 let deltahandsy = (skeletonSumHandsY / numSkeleton);
