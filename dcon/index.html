@@ -52,7 +52,7 @@
         #glyph {
           font-family: 'grotesk-font', sans-serif;
           font-size: 68px;
-          color: #002fa7;
+          color: white;
           background-color: black;
           width: 520px;
           height: 312px;
@@ -70,7 +70,6 @@
           cursor: default;
           text-align: center;
           width: 2080px;
-          line-height: 68px;
           transform: translateX(-50%);
           overflow: hidden;
         }
@@ -87,27 +86,32 @@
           transform: translate3d(-50%,-75%,0);
           -webkit-transform: translate3d(-50%,-75%,0);
         }
-        
-        #glyph.stroboscopic {
-          animation: stroboscopic .1s infinite alternate linear;
-        }
 
         #skeletonLogger{
-            font-size: 35px;
-            position: absolute;
             display: none;
-            color: #333;
-            top:50px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            text-align: center;
 
         }
         #ui{
             position:absolute;
             top:0;
             z-index: 10001;
+        }
+        
+        .params {
+          position: absolute;
+          bottom: 0;
+          right: 125px;
+          font-size: 12px;
+          color: yellow;
+          z-index: 1000000;
+        }
+        .params p {
+          margin: 0;
+          padding: 0;
+        }
+        
+        .params .value {
+          color: red;
         }
         
     </style>
@@ -124,6 +128,13 @@
       <span class="two">
         App
       </span>
+    </div>
+    <div class="params">
+      <p id="thickness">Thickness:  <span class="value">115</span></p>
+      <p id="curviness">Curviness:  <span class="value">0</span></p>
+      <p id="capDelta">Cap Height:  <span class="value">1</span></p>
+      <p id="width">Width:  <span class="value">230</span></p>
+      <p id="slant">Slant:  <span class="value">0</span></p>
     </div>
     <canvas id="canvas" style="display:none;"></canvas>
 </body>

@@ -38,18 +38,24 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
                 });
                 let proximity = (skeletonSumZ / numSkeleton);
                 Ptypo.changeParam(75 * (4 - proximity), 'thickness', 'grotesk-font');
+                $("#thickness .value").html((75 * (4 - proximity)).toFixed(2));
                 
                 let deltax = (skeletonSumX / numSkeleton);
-                Ptypo.changeParam(Math.abs(0 + deltax) * 3, 'curviness', 'grotesk-font');
+                Ptypo.changeParam((deltax) * 4, 'curviness', 'grotesk-font');
+                $("#curviness .value").html(((deltax) * 4).toFixed(2));
                 
                 let deltahandsy = (skeletonSumHandsY / numSkeleton);
-                Ptypo.changeParam(Math.abs( 0.8 + deltahandsy), 'crossbar', 'grotesk-font');
+                Ptypo.changeParam(Math.abs( 0.8 + deltahandsy) * 400, 'capDelta', 'grotesk-font');
+                $("#capDelta .value").html((Math.abs( 0.8 + deltahandsy) * 400).toFixed(2));
+                
                 let deltahandsx = (skeletonSumHandsX / numSkeleton);
                 Ptypo.changeParam(deltahandsx * 1.8, 'width', 'grotesk-font');
+                $("#width .value").html((deltahandsx * 1.8).toFixed(2));
                 
                 let deltaAngle = (skeletonAngle / numSkeleton);
                 let radAngle = Math.atan(1.8 / deltaAngle);
                 Ptypo.changeParam((90 - (radAngle * (180 / Math.PI)) * 3 ), 'slant', 'grotesk-font');
+                $("#slant .value").html(((90 - (radAngle * (180 / Math.PI)) * 3 ).toFixed(2)));
               });
             };
         }

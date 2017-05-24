@@ -7,8 +7,8 @@ $(document).ready(function () {
     Ptypo.changeParam(0, 'curviness', 'grotesk-font');
     var text = {
       'data': [
-        {'one':'ARTISTS', two:'& ROBOTS 2017'},
-        {'one':'10 JUNE', two:'10 SEPTEMBER 2017'},
+        {'one':'ARTISTS', two:'& ROBOTS'},
+        {'one':'06/06/2017', two:'09/10/2017'},
         {'one':'RAQUEL', two:'KOGAN'},
         {'one':'ELIAS', two:'CRESPIN'},
         {'one':'LAB[AU]', two:''},
@@ -24,7 +24,7 @@ $(document).ready(function () {
         {'one':'RAFAEL LOZANO', two:'BRET'},
         {'one':'ARTISTS', two:'& ROBOTS 2017'},
         {'one':'MIGUEL', two:'CHEVALIER'},
-        {'one':'FRANÇOIS', two:'BRUMENT'},
+        {'one':'FRANCOIS', two:'BRUMENT'},
         {'one':'SONIA', two:'LAUGIER'},
         {'one':'NERVOUS', two:'SYSTEM'},
         {'one':'ARTISTS', two:'& ROBOTS 2017'},
@@ -151,8 +151,15 @@ $(document).ready(function () {
         Ptypo.tween(115, 'thickness', 'grotesk-font', 60, 2);
         Ptypo.tween(0, 'curviness', 'grotesk-font', 60, 2);
         Ptypo.tween(1, 'width', 'grotesk-font', 60, 2);
-        Ptypo.tween(1, 'crossbar', 'grotesk-font', 60, 2);
+        Ptypo.tween(230, 'capDelta', 'grotesk-font', 60, 2);
         Ptypo.tween(0, 'slant', 'grotesk-font', 60, 2);
+        
+        $("#thickness .value").html(115);
+        $("#curviness .value").html(0);
+        $("#width .value").html(1);
+        $("#capDelta .value").html(230);
+        $("#slant .value").html(0);
+        
     });
 
     //KinectGestures.on(KinectGestures.GestureType.PlayerPosition, function(event){});

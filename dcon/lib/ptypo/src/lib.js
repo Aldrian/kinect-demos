@@ -22,7 +22,6 @@
 		}).then(function( data ) {
 			return data.json();
 		}).then(function (data) {
-			console.log(data);
 			values[name] = {};
 			data.controls.forEach(function( control ) {
 				control.parameters.forEach(function(param) {
