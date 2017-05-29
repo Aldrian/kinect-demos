@@ -47,7 +47,7 @@ $(document).ready(function () {
       $('#glyph span.two').html(text.data[text.index].two);
 	    Ptypo['grotesk-font'].subset = text.data[text.index].one + text.data[text.index].two
 		    + text.data[(text.index + 1) % text.data.length].one + text.data[(text.index + 1) % text.data.length].two
-      if (text.index + 1 > text.data.length) {
+      if (text.index + 1 >= text.data.length) {
         text.index = 0;
       }
       else text.index++;
