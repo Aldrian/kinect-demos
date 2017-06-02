@@ -51,40 +51,39 @@
         }
         #glyph {
           font-family: 'grotesk-font', sans-serif;
-          font-size: 68px;
+          font-size: 70px;
           color: white;
           background-color: black;
-          width: 520px;
-          height: 312px;
+          width: 416px;
+          height: 208px;
           text-transform: uppercase;
           position: absolute;
           top:0;
           left:0;
           z-index: 1000;
+          border: 1px solid red;
         }
         
         #glyph span {
           position: absolute;
+          display: table-cell;
           left: 50%;
           user-select: none;
           cursor: default;
           text-align: center;
           width: 2080px;
           transform: translateX(-50%);
-          overflow: hidden;
+          line-height: 70px;
+          max-height: 75px;
+          vertical-align: top;
         }
         
         #glyph span.one {
-          top:25%;
-          transform: translate3d(-50%,-25%,0);
-          -webkit-transform: translate3d(-50%,-25%,0);
+          top:15px;
         }
         
         #glyph span.two {
-          position: absolute;
-          top:75%;
-          transform: translate3d(-50%,-75%,0);
-          -webkit-transform: translate3d(-50%,-75%,0);
+          bottom:10px;
         }
 
         #skeletonLogger{
@@ -128,13 +127,6 @@
       <span class="two">
         App
       </span>
-    </div>
-    <div class="params">
-      <p id="thickness">Thickness:  <span class="value">115</span></p>
-      <p id="curviness">Curviness:  <span class="value">0</span></p>
-      <p id="capDelta">Cap Height:  <span class="value">1</span></p>
-      <p id="width">Width:  <span class="value">230</span></p>
-      <p id="slant">Slant:  <span class="value">0</span></p>
     </div>
     <canvas id="canvas" style="display:none;"></canvas>
 </body>

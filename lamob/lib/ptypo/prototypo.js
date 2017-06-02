@@ -29961,7 +29961,7 @@ Utils.lineCurveIntersection = function (pointHandleOut, pointHandleIn, lineStart
 
 Utils.log = function () {
 	/*eslint-disable no-console */
-	//console.log.apply(console, arguments);
+	console.log.apply(console, arguments);
 	/*eslint-enable no-console */
 	return arguments[0];
 };
