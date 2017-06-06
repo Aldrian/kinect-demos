@@ -3,28 +3,55 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
 (function(){
 
     function DebugDrawer()
-    {   
+    {
         let canvasEl = null,
             context = null;
 
-        let record = false;        
+        let record = false;
+        
+        var playerlost = false;
+        
+        let previousDeltaX = 0, previousProximity = 0, previousDeltaAngle = 0;
+        
+        function isWellFormed(skeleton) {
+          var jointsToCheck = [
+                  JointType.HipCenter,
+                  JointType.HipLeft,
+                  JointType.HipRight,
+                  JointType.KneeRight,
+                  JointType.KneeLeft,
+                  JointType.ShoulderLeft,
+                  JointType.ShoulderRight,
+                  JointType.ShoulderCenter,
+                  JointType.ElbowLeft,
+                  JointType.ElbowRight,
+                  JointType.Head,
+                  JointType.Spine,
+              ];
+          for (var i = jointsToCheck.length - 1; i >= 0; i--) {
+              if (skeleton.joints[jointsToCheck[i]].trackingState < 2){
+                  return false;
+              }
+          }
+          return true;
+        }
 
         function update(frame)
-        {   
-            
-            
+        {
+
             let skeletonPromises = [];
             for (let iSkeleton = 0; iSkeleton < frame.skeletons.length; ++iSkeleton) {
                 let skeleton = frame.skeletons[iSkeleton];
-                if (skeleton.trackingState > 0){
+                if (skeleton.trackingState > 0 && isWellFormed(skeleton)){
                     skeletonPromises.push(updateSkeleton(skeleton, iSkeleton));
-                }                
+                }
             }
             if (skeletonPromises.length > 0) {
+              playerlost = false;
               let skeletonSumX = 0;
               let skeletonSumZ = 0;
               let numSkeleton = 0;
-              let skeletonSumHandsX = 0; 
+              let skeletonSumHandsX = 0;
               let skeletonSumHandsY = 0;
               let skeletonAngle = 0;
               Promise.all(skeletonPromises).then((results) => {
@@ -37,59 +64,74 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
                   numSkeleton++;
                 });
                 let proximity = (skeletonSumZ / numSkeleton);
+                let deltaProximity = proximity - previousProximity;
+                // if (Math.abs(deltaProximity) >= 0.005 && Math.abs(deltaProximity) <= 0.1) {
+                //   console.log();
+                //   proximity = deltaProximity > 0 ? previousProximity - 0.005 : previousProximity + 0.005; 
+                // }
                 Ptypo.changeParam(75 * (4 - proximity), 'thickness', 'grotesk-font');
-                $("#thickness .value").html((75 * (4 - proximity)).toFixed(2));
+                previousProximity = proximity;
                 
                 let deltax = (skeletonSumX / numSkeleton);
-                Ptypo.changeParam(Math.pow(deltax, 3) - 2, 'curviness', 'grotesk-font');
-                $("#curviness .value").html(((deltax) * 4).toFixed(2));
-                
-                let deltahandsy = (skeletonSumHandsY / numSkeleton);
-                Ptypo.changeParam(Math.abs( 0.8 + deltahandsy) * 400, 'capDelta', 'grotesk-font');
-                $("#capDelta .value").html((Math.abs( 0.8 + deltahandsy) * 400).toFixed(2));
-                
-                let deltahandsx = (skeletonSumHandsX / numSkeleton);
-                Ptypo.changeParam(deltahandsx * 1.8, 'width', 'grotesk-font');
-                $("#width .value").html((deltahandsx * 1.8).toFixed(2));
-                
+                let dx = deltax - previousDeltaX;
+                // if (Math.abs(dx) >= 0.005 && Math.abs(dx) <= 0.2) {
+                //   deltax = dx > 0 ? previousDeltaX - 0.005 : previousDeltaX + 0.005; 
+                // }
+                Ptypo.changeParam(Math.pow(deltax, 3) * 3, 'curviness', 'grotesk-font');
+                previousDeltaX = deltax;
+
                 let deltaAngle = (skeletonAngle / numSkeleton);
+                let da = deltaAngle - previousDeltaAngle;
+                // if (Math.abs(da) >= 0.005 && Math.abs(da) <= 0.2) {
+                //   deltaAngle = da > 0 ? previousDeltaAngle - 0.005 : previousDeltaAngle + 0.005; 
+                // }
                 let radAngle = Math.atan(1.8 / deltaAngle);
                 Ptypo.changeParam((90 - (radAngle * (180 / Math.PI)) * 3 ), 'slant', 'grotesk-font');
-                $("#slant .value").html(((90 - (radAngle * (180 / Math.PI)) * 3 ).toFixed(2)));
+                previousDeltaAngle = deltaAngle;
               });
-            };
+            }
+            else if (!playerlost){
+                  playerlost = true;
+                  Ptypo.tween(115, 'thickness', 'grotesk-font', 60, 2);
+                  Ptypo.tween(0, 'curviness', 'grotesk-font', 60, 2);
+                  Ptypo.tween(1, 'width', 'grotesk-font', 60, 2);
+                  Ptypo.tween(230, 'capDelta', 'grotesk-font', 60, 2);
+                  Ptypo.changeParam(0, 'slant', 'grotesk-font');
+            }
         }
         function updateSkeleton(skeleton, index)
-        { 
+        {
           return new Promise((resolve, reject) => {
             // Z axis
-              
+            let jointNum = 0;
             let sumz = 0;
             for (let iJoint = 0; iJoint < skeleton.joints.length; ++iJoint) {
                 let joint = skeleton.joints[iJoint];
-                sumz = sumz + joint.position.z;
+                if (joint.trackingState === 2) {
+                  sumz = sumz + joint.position.z;
+                  jointNum ++;
+                }
             }
-              
-            // X axis 
+
+            // X axis
             let sumx = 0;
             for (let iJoint = 0; iJoint < skeleton.joints.length; ++iJoint) {
                 let joint = skeleton.joints[iJoint];
-                sumx = sumx + joint.position.x;
+                if (joint.trackingState === 2) {
+                  sumx = sumx + joint.position.x;
+                }
             }
             
-            // Hands
-            let yhands = (skeleton.joints[7].position.y + skeleton.joints[11].position.y) / 2;
-            let xhands = Math.abs(skeleton.joints[7].position.x - skeleton.joints[11].position.x);
-            
-            //angle 
-            let angle = (skeleton.joints[3].position.x - skeleton.joints[0].position.x);
+            //angle
+            let angle = 0;
+            if (skeleton.joints[3].trackingState === 2 && skeleton.joints[0].trackingState === 2) {
+              angle = (skeleton.joints[3].position.x - skeleton.joints[0].position.x);
+            }
             resolve({
               x: sumx,
-              xhands,
-              yhands,
               z: sumz,
               angle,
-              length: skeleton.joints.length
+              length: jointNum
             });
           });
         }

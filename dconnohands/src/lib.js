@@ -39,16 +39,11 @@
 		});;
 	}
 
-	Ptypo.changeParam = function(value, name, font, isTween = false) {
+	Ptypo.changeParam = function(value, name, font) {
     if (values[font]) {
       values[font][name] = value;
   		Ptypo[font].update(values[font]);
     }
-		if (!isTween) {
-			if (tweens[font] && tweens[font][name]) {
-				clearInterval(tweens[font][name].intervalId);
-			}
-		}
 	}
 
 	Ptypo.getParam = function(name, font) {
@@ -63,15 +58,9 @@
 	}
 
 	Ptypo.tween = function(value, name, font, steps, aDuration, cb) {
-    
-    if (!values[font]) {
-      return;
-    }
-    
 		const duration = aDuration * 1000;
 		if (tweens[font][name]) {
 			clearInterval(tweens[font][name].intervalId);
-      delete tweens[font][name];
 		}
 
 		var start = values[font][name];
@@ -90,7 +79,7 @@
 				return;
 			}
 			var newValue = (start * (duration - elapsed) + value * elapsed) / duration;
-			Ptypo.changeParam(newValue, name, font, true);
+			Ptypo.changeParam(newValue, name, font);
 			elapsed += duration / steps;
 		}, duration / steps);
 

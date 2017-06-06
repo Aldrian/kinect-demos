@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Prototypo-kinect</title>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-1.9.1.min.js"></script>
 
     <script type="text/javascript" src="sdk/Kinect-1.8.0.js"></script>
 
@@ -95,6 +95,7 @@
         }
 
         #glyph span.outline {
+          display: none;
           color: transparent;
           text-stroke: 3px #fc5454;
           -webkit-text-stroke: 3px #fc5454;
@@ -218,10 +219,10 @@
     </div>
     <div id="glyph">
       <span contenteditable="true" class="main">
-        Les puces <br> typo
+        Yellow <br> vibes
       </span>
       <span class="outline">
-        Les puces <br> typo
+        Yellow <br> vibes
       </span>
     </div>
     <span id="score">Score: 0</span>

@@ -2,9 +2,9 @@
 
 
 $(document).ready(function () {
-
+  
   Ptypo.createFont('grotesk-font', 'grotesk').then(() => {
-    Ptypo.changeParam(0, 'curviness', 'grotesk-font');
+    Ptypo.changeParam(-2, 'curviness', 'grotesk-font');
     var text = {
       'data': [
         {'one':'ARTISTS', two:'& ROBOTS'},
@@ -52,9 +52,9 @@ $(document).ready(function () {
       else text.index++;
     }, 10000);
   });
-
-
-
+  
+    
+    
 
     var isSensorConnected = false;
 
@@ -63,27 +63,27 @@ $(document).ready(function () {
         "interaction" : {
             "enabled": false,
         },
-
+     
         "userviewer" : {
             "enabled": false,
             //"resolution": "640x480", //320x240, 160x120, 128x96, 80x60
             //"userColors": { "engaged": 0x7fffffff, "tracked": 0x7fffffff },
             //"defaultUserColor": 0x70000000, //RGBA 2147483647
         },
-
+     
         "backgroundRemoval" : {
             "enabled": false,
             //"resolution": "640x480", //1280x960
         },
-
+     
         "skeleton" : {
             "enabled": true,
         },
-
+     
         "sensorStatus" : {
             "enabled": true,
         }
-
+     
     };
 
     // Create sensor and UI adapter layers
@@ -93,7 +93,7 @@ $(document).ready(function () {
     });
 
     sensor.addEventHandler(function (event) {
-
+                
         switch (event.category) {
             case Kinect.SENSORSTATUS_EVENT_CATEGORY:
                 switch (event.eventType) {
@@ -105,13 +105,13 @@ $(document).ready(function () {
                 break;
         }
     });
-
+    
     function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min)) + min;
     }
-
+    
     // Game logics
     var GAME_STATUS = 'waiting';
         loggedPlayers = 0;
@@ -125,17 +125,17 @@ $(document).ready(function () {
     });
 
     //KinectGestures.on(KinectGestures.EventType.PlayerTracked, function(event){});
-
-    //KinectGestures.on(KinectGestures.EventType.PlayerEngagedAgain, function(event){});
+    
+    //KinectGestures.on(KinectGestures.EventType.PlayerEngagedAgain, function(event){});    
 
     KinectGestures.on(KinectGestures.GestureType.Wave, function(event){
-	    Ptypo.tween(1, '_contrast', 'grotesk-font', 30, 0.3, function(name, font) {
-		    Ptypo.tween(-2, name, font, 30, 0.3, function(name, font) {
+	    Ptypo.tween(-0.15, '_contrast', 'grotesk-font', 30, 0.3, function(name, font) {
+		    Ptypo.tween(-1.3, name, font, 30, 0.3, function(name, font) {
           Ptypo.tween(-1, name, font, 30, 0.1);
         });
 	    });
     });
-
+    
     //KinectGestures.on(KinectGestures.GestureType.Swipe, function(event){});
 
     //KinectGestures.on('squat',function(event){});
@@ -145,15 +145,23 @@ $(document).ready(function () {
     //KinectGestures.on(KinectGestures.GestureType.Jump, function(event){});
     //KinectGestures.on(KinectGestures.GestureType.JumpPosition, function(event){});
     //KinectGestures.on(KinectGestures.GestureType.JumpPositionHip, function(event){});
-
+    
     KinectGestures.on(KinectGestures.EventType.PlayerLost, function(event){
         Ptypo.tween(115, 'thickness', 'grotesk-font', 60, 2);
-        Ptypo.tween(0, 'curviness', 'grotesk-font', 60, 2);
+        Ptypo.tween(-2, 'curviness', 'grotesk-font', 60, 2);
         Ptypo.tween(1, 'width', 'grotesk-font', 60, 2);
         Ptypo.tween(230, 'capDelta', 'grotesk-font', 60, 2);
         Ptypo.changeParam(0, 'slant', 'grotesk-font');
+        
+        $("#thickness .value").html(115);
+        $("#curviness .value").html(-2);
+        $("#width .value").html(1);
+        $("#capDelta .value").html(230);
+        $("#slant .value").html(0);
+        
     });
 
     //KinectGestures.on(KinectGestures.GestureType.PlayerPosition, function(event){});
 
 });
+

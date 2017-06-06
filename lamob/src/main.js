@@ -59,9 +59,16 @@ $(document).ready(function () {
       return Math.floor(Math.random() * (max - min)) + min;
     }
 
-
-    Ptypo.createFont('antique-font', 'antique');
-    Ptypo.createFont('antique-font-game', 'antique');
+    
+    Ptypo.createFont('antique-font-game', 'antique').then(() => {
+      Ptypo['antique-font-game'].subset = $('.main').html().replace(/[^\w\s]/gi, '').toLowerCase() + 'thanksforplayingetready3210.youwoncongratsgameover!';
+    });
+    Ptypo.createFont('antique-font', 'antique').then(() => {
+      Ptypo['antique-font'].subset = $('.main').html().replace(/[^\w\s]/gi, '').toLowerCase() + 'thanksforplayingetready3210.youwoncongratsgameover!';
+    });
+    
+    
+    
 
     // $('.contenteditable').contentEditable().change(function(){
     //   console.log('coucou');
@@ -77,6 +84,8 @@ $(document).ready(function () {
 
     $('.main').on('change', function() {
        $('.outline').html($(this).html());
+       Ptypo['antique-font'].subset = $(this).html().replace(/[^\w\s]/gi, '').toLowerCase() + 'thanksforplayingetready3210.youwoncongratsgameover!';
+       Ptypo['antique-font-game'].subset = $(this).html().replace(/[^\w\s]/gi, '').toLowerCase() + 'thanksforplayingetready3210.youwoncongratsgameover!';
     });
 
     let gamePositions = [
@@ -196,8 +205,8 @@ $(document).ready(function () {
             setTimeout(function () {
               $('.outline').show();
               $('#score').hide();
-              $('.main').html('les puces <br> typo');
-              $('.outline').html('les puces <br> typo');
+              $('.main').html('yellow <br> vibes');
+              $('.outline').html('yellow <br> vibes');
             }, 5000);
             break;
           } else if (index === 100) {
@@ -207,8 +216,8 @@ $(document).ready(function () {
             setTimeout(function () {
               $('.outline').show();
               $('#score').hide();
-              $('.main').html('les puces <br> typo');
-              $('.outline').html('les puces <br> typo');
+              $('.main').html('yellow <br> vibes');
+              $('.outline').html('yellow <br> vibes');
             }, 5000);
             break;
           }
@@ -330,7 +339,13 @@ $(document).ready(function () {
     //KinectGestures.on(KinectGestures.GestureType.JumpPositionHip, function(event){});
 
     KinectGestures.on(KinectGestures.EventType.PlayerLost, function(event){
-        Ptypo.createFont('antique-font', 'antique');
+        Ptypo.tween(54, 'thickness', 'antique-font', 60, 1);
+        Ptypo.tween(0.6, 'curviness', 'antique-font', 60, 1);
+        Ptypo.tween(1, 'width', 'antique-font', 60, 1);
+        Ptypo.changeParam(0, 'slant', 'antique-font');
+        Ptypo.tween(600, 'xHeight', 'antique-font', 60, 1);
+        Ptypo.tween(100, 'ascender', 'antique-font', 60, 1);
+        Ptypo.tween(-90, 'descender', 'antique-font', 60, 1);
     });
 
     //KinectGestures.on(KinectGestures.GestureType.PlayerPosition, function(event){});

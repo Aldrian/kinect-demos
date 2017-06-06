@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>Prototypo-kinect</title>
-    <script type="text/javascript" src="lib/jquery-1.9.1.min.js"></script>
-
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
+    
     <script type="text/javascript" src="sdk/Kinect-1.8.0.js"></script>
-
+    
     <script type="text/javascript" src="lib/kinect-gestures.js"></script>
     <script type="text/javascript" src="lib/gesture-checker.js"></script>
     <script type="text/javascript" src="lib/gesture-manager.js"></script>
@@ -27,7 +27,7 @@
   	<script src="src/lib.js"></script>
   	<script src="src/main.js"></script>
 
-
+    
     <style type="text/css">
         html {
             width: 100%;
@@ -61,8 +61,9 @@
           top:0;
           left:0;
           z-index: 1000;
+          border: 1px solid red;
         }
-
+        
         #glyph span {
           position: absolute;
           display: table-cell;
@@ -76,11 +77,11 @@
           max-height: 75px;
           vertical-align: top;
         }
-
+        
         #glyph span.one {
           top:15px;
         }
-
+        
         #glyph span.two {
           bottom:10px;
         }
@@ -94,7 +95,7 @@
             top:0;
             z-index: 10001;
         }
-
+        
         .params {
           position: absolute;
           bottom: 0;
@@ -107,13 +108,13 @@
           margin: 0;
           padding: 0;
         }
-
+        
         .params .value {
           color: red;
         }
-
+        
     </style>
-
+    
 </head>
 <body>
 
