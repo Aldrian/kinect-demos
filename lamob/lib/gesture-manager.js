@@ -130,8 +130,8 @@ window.JointType = window.KinectGestures.JointType = {
               }
 
               for (i = losts.length - 1; i >= 0; i--) {
-                var player = KinectGestures.PlayerRegister.getPlayerById(losts[i].trackingId);
-                KinectGestures.emit(KinectGestures.EventType.PlayerLost, {trackingId:losts[i].trackingId, playerNum:player ? player.playerNum : -1, relativePosition:losts[i].position.x <= 0 ? 1 : 2});
+                //var player = KinectGestures.PlayerRegister.getPlayerById(losts[i].trackingId);
+                //KinectGestures.emit(KinectGestures.EventType.PlayerLost, {trackingId:losts[i].trackingId, playerNum:player ? player.playerNum : -1, relativePosition:losts[i].position.x <= 0 ? 1 : 2});
               }
             } 
         }
