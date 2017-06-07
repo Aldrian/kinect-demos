@@ -11,7 +11,7 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
         
         var playerlost = false;
         
-        let previousDeltaX = 0, previousProximity = 0, previousDeltaAngle = 0;
+        let previousDeltaX = 0, previousProximity = 1, previousDeltaAngle = Math.PI/2;
         
         function isWellFormed(skeleton) {
           var jointsToCheck = [
@@ -42,7 +42,7 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
             let skeletonPromises = [];
             for (let iSkeleton = 0; iSkeleton < frame.skeletons.length; ++iSkeleton) {
                 let skeleton = frame.skeletons[iSkeleton];
-                if (skeleton.trackingState > 0 && isWellFormed(skeleton)){
+                if (skeleton.trackingState > 0){
                     skeletonPromises.push(updateSkeleton(skeleton, iSkeleton));
                 }
             }
@@ -56,38 +56,51 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
               let skeletonAngle = 0;
               Promise.all(skeletonPromises).then((results) => {
                 results.map((sums) => {
-                  skeletonSumZ += (sums.z / sums.length);
-                  skeletonSumX += (sums.x / sums.length);
-                  skeletonSumHandsX += sums.xhands;
-                  skeletonSumHandsY += sums.yhands;
-                  skeletonAngle += sums.angle;
-                  numSkeleton++;
+                  if (sums.length !== 0) {
+                    skeletonSumZ += sums.z;
+                    skeletonSumX += (sums.x / sums.length);
+                    skeletonSumHandsX += sums.xhands || 0;
+                    skeletonSumHandsY += sums.yhands || 0;
+                    skeletonAngle += sums.angle;
+                    numSkeleton++;
+                  }
                 });
+                if (numSkeleton == 0) {
+                  return;
+                }
                 let proximity = (skeletonSumZ / numSkeleton);
                 let deltaProximity = proximity - previousProximity;
                 // if (Math.abs(deltaProximity) >= 0.005 && Math.abs(deltaProximity) <= 0.1) {
                 //   console.log();
                 //   proximity = deltaProximity > 0 ? previousProximity - 0.005 : previousProximity + 0.005; 
                 // }
-                Ptypo.changeParam(75 * (4 - proximity), 'thickness', 'grotesk-font');
-                previousProximity = proximity;
-                
+                if (Math.abs(deltaProximity) > 0.2) {
+                  let value = Math.min(previousProximity + 0.05, Math.max(previousProximity - 0.05, proximity));
+                  Ptypo.changeParam(4000 / (value * 18 + 0.01), 'thickness', 'grotesk-font');
+                  previousProximity = value;
+                }
+
                 let deltax = (skeletonSumX / numSkeleton);
                 let dx = deltax - previousDeltaX;
                 // if (Math.abs(dx) >= 0.005 && Math.abs(dx) <= 0.2) {
                 //   deltax = dx > 0 ? previousDeltaX - 0.005 : previousDeltaX + 0.005; 
                 // }
-                Ptypo.changeParam(Math.pow(deltax, 3) * 3, 'curviness', 'grotesk-font');
-                previousDeltaX = deltax;
+                if (Math.abs(dx) > 0.05) {
+                  value = Math.min(previousDeltaX + 0.02, Math.max(previousDeltaX - 0.02, deltax));
+                  Ptypo.changeParam((1+value*8), 'curviness', 'grotesk-font');
+                  previousDeltaX = value;
+                }
 
                 let deltaAngle = (skeletonAngle / numSkeleton);
                 let da = deltaAngle - previousDeltaAngle;
                 // if (Math.abs(da) >= 0.005 && Math.abs(da) <= 0.2) {
                 //   deltaAngle = da > 0 ? previousDeltaAngle - 0.005 : previousDeltaAngle + 0.005; 
                 // }
-                let radAngle = Math.atan(1.8 / deltaAngle);
-                Ptypo.changeParam((90 - (radAngle * (180 / Math.PI)) * 3 ), 'slant', 'grotesk-font');
-                previousDeltaAngle = deltaAngle;
+                if (Math.abs(da) > Math.PI/80) {
+                  value = Math.min(Math.PI/2 + Math.PI/3, Math.max(Math.PI/2-Math.PI/3, Math.min(previousDeltaAngle + Math.PI/120, Math.max(previousDeltaAngle - Math.PI/120, deltaAngle))));
+                  Ptypo.changeParam(90 - value * (180 / Math.PI), 'slant', 'grotesk-font');
+                  previousDeltaAngle = value;
+                }
               });
             }
             else if (!playerlost){
@@ -104,14 +117,7 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
           return new Promise((resolve, reject) => {
             // Z axis
             let jointNum = 0;
-            let sumz = 0;
-            for (let iJoint = 0; iJoint < skeleton.joints.length; ++iJoint) {
-                let joint = skeleton.joints[iJoint];
-                if (joint.trackingState === 2) {
-                  sumz = sumz + joint.position.z;
-                  jointNum ++;
-                }
-            }
+            let sumz = skeleton.joints[0].position.z || 1;
 
             // X axis
             let sumx = 0;
@@ -119,13 +125,17 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
                 let joint = skeleton.joints[iJoint];
                 if (joint.trackingState === 2) {
                   sumx = sumx + joint.position.x;
+                  jointNum ++;
                 }
             }
             
             //angle
             let angle = 0;
             if (skeleton.joints[3].trackingState === 2 && skeleton.joints[0].trackingState === 2) {
-              angle = (skeleton.joints[3].position.x - skeleton.joints[0].position.x);
+              angle = Math.atan2(skeleton.joints[3].position.y - skeleton.joints[0].position.y, skeleton.joints[3].position.x - skeleton.joints[0].position.x);
+            }
+            else {
+              angle = Math.PI/2;
             }
             resolve({
               x: sumx,
