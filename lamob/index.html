@@ -1,5 +1,7 @@
-﻿<!DOCTYPE HTML>
+
+<!DOCTYPE HTML>
 <html>
+
 <head>
     <title>Prototypo-kinect</title>
     <script type="text/javascript" src="lib/jquery-1.9.1.min.js"></script>
@@ -23,9 +25,9 @@
     <script type="text/javascript" src="lib/debug/debug-drawer.js"></script>
     <!--<script type="text/javascript" src="../dist/kinect-gestures.min.js"></script>-->
     <script src="lib/ptypo/prototypo.js"></script>
-  	<script src="lib/ptypo/prototypo-canvas.js"></script>
-  	<script src="src/lib.js"></script>
-  	<script src="src/main.js"></script>
+    <script src="lib/ptypo/prototypo-canvas.js"></script>
+    <script src="src/lib.js"></script>
+    <script src="src/main.js"></script>
 
 
     <style type="text/css">
@@ -34,7 +36,7 @@
             height: 100%;
             overflow: hidden;
         }
-
+        
         body {
             width: 100%;
             height: 100%;
@@ -43,189 +45,202 @@
             font-family: Arial, sans-serif;
             background-color: #fefefe;
         }
-
         /* skeleton */
-        #skeletonContainer
-        {
+        
+        #skeletonContainer {
             position: absolute;
-            top:0;
-            left:0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             opacity: 0.5;
-
         }
+        
         #glyph {
-          font-family: 'antique-font';
-          color: #333;
-          background: linear-gradient(to right bottom, #fbe173, #fbbf73);
-          background-color: #fbe173;
-          width: 100%;
-          height: 100%;
-          text-transform: lowercase;
-          position: absolute;
-          top:50%;
-          left: 50%;
-          z-index: 1000;
-          transform: translate3d(-50%,-50%,0);
-          -webkit-transform: translate3d(-50%,-50%,0);
-          transition: background .3s ease;
+            font-family: 'antique-font';
+            color: black;
+            background: #fade01;
+            background-color: #fade01;
+            width: 100%;
+            height: 100%;
+            text-transform: lowercase;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 1000;
+            transform: translate3d(-50%, -50%, 0);
+            -webkit-transform: translate3d(-50%, -50%, 0);
+            transition: background .3s ease;
         }
-
+        
         #glyph.success {
-          background: #24d390;
+            background: #9afa01;
         }
+        
         #glyph.error {
-          background: #fc5454;
+            background: #fa6201;
         }
-
-
+        
         #glyph span {
-          position: absolute;
-          left: 50%;
-          top:50%;
-          transform: translate3d(-50%,-50%,0);
-          -webkit-transform: translate3d(-50%,-50%,0);
-          user-select: none;
-          cursor: default;
-          text-align: center;
-          width: 90%;
-          font-size: 300px;
-          line-height: 300px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            -webkit-transform: translate3d(-50%, -50%, 0);
+            user-select: none;
+            cursor: default;
+            text-align: center;
+            width: 90%;
+            font-size: 300px;
+            line-height: 300px;
         }
-
+        
         #glyph span.outline {
-          display: none;
-          color: transparent;
-          text-stroke: 3px #fc5454;
-          -webkit-text-stroke: 3px #fc5454;
-          font-family: 'antique-font-game';
+            display: none;
+            display: inline;
+            color: rgba(250,98,1,0.8);
+            text-shadow: 1px 4px 6px #fade01, 0 0 0 #000, 1px 4px 6px #fade01;
+            font-family: 'antique-font-game';
         }
+        
         #glyph span:not(.outline) {
-          z-index: 1005;
+            z-index: 1005;
         }
-
+        
         [contenteditable]:focus {
             outline: 0px solid transparent;
         }
-
-        ::selection {
-          background: #fc5454;
-          color: white;
-          text-shadow: none;
+        
+         ::selection {
+            background: #fc5454;
+            color: white;
+            text-shadow: none;
         }
-
-        #skeletonLogger{
+        
+        #skeletonLogger {
             font-size: 35px;
             position: absolute;
             display: none;
-            color: #333;
-            top:50px;
+            color: #000;
+            top: 50px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
             text-align: center;
-
         }
-        #ui{
-            position:absolute;
-            top:0;
+        
+        #ui {
+            position: absolute;
+            top: 0;
             z-index: 10001;
         }
-
+        
         .button {
-          z-index: 1000000;
-          position: absolute;
-          bottom: 10px;
-          padding: 10px 20px;
-          font-size: 15px;
-          left: 10px;
-          outline: none;
-          border: 2px solid #333;
-          border-radius: 3px;
-          color: #333;
-          letter-spacing: 0.1em;
-          background: transparent;
-          font-weight: 600;
-          transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-          cursor: pointer;
+            z-index: 1000000;
+            position: absolute;
+            bottom: 10px;
+            padding: 10px 20px;
+            font-size: 15px;
+            left: 10px;
+            outline: none;
+            border: 2px solid #000;
+            border-radius: 3px;
+            color: #000;
+            letter-spacing: 0.1em;
+            background: transparent;
+            font-weight: 600;
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
         }
+        
         .button:hover {
-          color: #fbe173;
-          background: #333;
+            color: #fbe173;
+            background: #000;
         }
-
+        
+        #getparam {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000000;
+            display: none;
+        }
+        
         #stopgame {
-          display: none;
+            display: none;
         }
-
+        
         #score {
-          position: absolute;
-          bottom: 50px;
-          left: 50%;
-          transform: translateX(-50%);
-          color: #333;
-          font-size: 30px;
-          font-weight: 600;
-          letter-spacing: 0.05em;
-          display: none;
-          z-index: 1000000;
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #000;
+            font-size: 30px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            display: none;
+            z-index: 1000000;
         }
-
+        
         .progress {
-          width: 100%;
-          height: 20px;
-          z-index: 100000;
+            width: 100%;
+            height: 20px;
+            z-index: 100000;
         }
-
+        
         .progress-wrap {
-          background: #333;
-          margin: 0;
-          overflow: hidden;
-          position: relative;
-          z-index: 100000;
+            background: #000;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            z-index: 100000;
         }
+        
         .progress-wrap .progress-bar {
-          background: #fce68c;
-          left: 0;
-          position: absolute;
-          top: 0;
-          z-index: 100000;
-        }
-
-        .progress-wrap .progress-bar.loading {
-          animation: loading 30s linear;
-        }
-
-        @keyframes loading {
-          0% {
+            background: #feec5f;
             left: 0;
-          }
-          100% {
-            left: 100%;
-          }
+            position: absolute;
+            top: 0;
+            z-index: 100000;
         }
-
+        
+        .progress-wrap .progress-bar.loading {
+            animation: loading 30s linear;
+        }
+        
+        @keyframes loading {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: 100%;
+            }
+        }
     </style>
 
 </head>
+
 <body>
     <button id="startgame" class="button">Start game !</button>
     <button id="stopgame" class="button">Stop game</button>
     <div id="skeletonLogger">logger</div>
     <canvas id="skeletonContainer"></canvas>
     <div class="progress-wrap progress" data-progress-percent="0">
-      <div class="progress-bar progress"></div>
+        <div class="progress-bar progress"></div>
     </div>
     <div id="glyph">
-      <span contenteditable="true" class="main">
+        <span contenteditable="true" class="main">
         Yellow <br> vibes
       </span>
-      <span class="outline">
+        <span class="outline">
         Yellow <br> vibes
       </span>
     </div>
     <span id="score">Score: 0</span>
     <canvas id="canvas" style="display:none;"></canvas>
+    <button id="getparam">getparam</button>
 </body>
+
 </html>
