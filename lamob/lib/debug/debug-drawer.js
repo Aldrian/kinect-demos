@@ -78,7 +78,7 @@ window.KinectGestures = window.KinectGestures ? window.KinectGestures : {};
                     let deltaX = x - previousX;
                     if (Math.abs(deltaX > 0.05)) {
                         value = x;
-                        Ptypo.changeParam(parseFloat((0.6 + value / 2)), 'curviness', 'antique-font');
+                        Ptypo.changeParam(parseFloat((0.6 + value)), 'curviness', 'antique-font');
                         previousX = value;
                     }
 

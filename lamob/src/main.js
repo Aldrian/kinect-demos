@@ -90,71 +90,71 @@ $(document).ready(function() {
     let gamePositions = [{
             'width': 0.45,
             'xHeight': 370,
-            'ascender': 40,
-            'descender': -40,
+            'ascender':200,
+            'descender': -200,
             'thickness': 55,
             'slant': 0,
         },
         {
             'width': 3.30,
-            'xHeight': 370,
-            'ascender': 40,
-            'descender': -40,
+            'xHeight': 470,
+            'ascender': 200,
+            'descender': -200,
             'thickness': 55,
             'slant': 0,
         },
         {
             'width': 1,
             'xHeight': 730,
-            'ascender': 40,
-            'descender': -40,
+            'ascender': 200,
+            'descender': -200,
             'thickness': 55,
             'slant': 0,
         },
         {
             'width': 1,
             'xHeight': 370,
-            'ascender': 600,
-            'descender': -600,
+            'ascender': 500,
+            'descender': -500,
             'thickness': 55,
             'slant': 0,
         },
         {
             'width': 1,
-            'xHeight': 370,
-            'ascender': 40,
-            'descender': -40,
+            'xHeight': 570,
+            'ascender': 200,
+            'descender': -200,
             'thickness': 55,
             'slant': 38,
         },
         {
             'width': 1.22,
-            'xHeight': 1059,
-            'ascender': 400,
-            'descender': -210,
+            'xHeight': 900,
+            'ascender': 300,
+            'descender': -110,
             'thickness': 55,
             'slant': -17,
         },
         {
             'width': 1.6,
             'xHeight': 691,
-            'ascender': 204,
-            'descender': -110,
+            'ascender': 304,
+            'descender': -230,
             'thickness': 55,
             'slant': 0,
         },
         {
             'width': 3.3,
-            'xHeight': 300,
+            'xHeight': 420,
             'ascender': 400,
-            'descender': -110,
+            'descender': -210,
             'thickness': 55,
             'slant': 0,
         },
         {
             'width': 3.22,
             'xHeight': 600,
-            'ascender': 80,
+            'ascender': 300,
             'descender': -500,
             'thickness': 55,
             'slant': -19,
@@ -183,7 +183,7 @@ $(document).ready(function() {
                     setTimeout(function() {
                         void background.offsetWidth;
                         background.classList.remove("success");
-                    }, 700);
+                    }, 2000);
                     score++;
                     $('#score').text('Score: ' + score);
                 } catch (e) {
@@ -192,7 +192,7 @@ $(document).ready(function() {
                     setTimeout(function() {
                         void background.offsetWidth;
                         background.classList.remove("error");
-                    }, 700);
+                    }, 2000);
                 } finally {
                     progressBar.classList.remove("loading");
                     void progressBar.offsetWidth;
@@ -210,7 +210,6 @@ $(document).ready(function() {
                         $('.main').html('Game over');
                     }
                     setTimeout(function() {
-                        $('.outline').show();
                         $('#score').hide();
                         $('.main').html('yellow <br> vibes');
                         $('.outline').html('yellow <br> vibes');
@@ -277,7 +276,7 @@ $(document).ready(function() {
                     Ptypo.tween(gamePositions[gameindex].ascender, 'ascender', 'antique-font-game', 30, 0.5);
                     Ptypo.tween(gamePositions[gameindex].descender, 'descender', 'antique-font-game', 30, 0.5);
                     progressBar.classList.add("loading");
-                }, 700);
+                }, 2000);
             } else {
                 Ptypo.changeParam(gamePositions[gameindex].slant, 'slant', 'antique-font-game');
                 Ptypo.tween(gamePositions[gameindex].thickness, 'thickness', 'antique-font-game', 30, 0.5);
@@ -291,7 +290,7 @@ $(document).ready(function() {
             //Timeout if not resolved
             setTimeout(function() {
                 reject(false);
-            }, 30700);
+            }, 32000);
             // Check if position correct
             setInterval(function() {
                 if (stopgame) {
@@ -310,18 +309,23 @@ $(document).ready(function() {
             'width': Ptypo.getParam('width', 'antique-font'),
             'xHeight': Ptypo.getParam('xHeight', 'antique-font'),
             'thickness': Ptypo.getParam('thickness', 'antique-font'),
-            'slant': Ptypo.getParam('slant', 'antique-font')
+            'slant': Ptypo.getParam('slant', 'antique-font'),
+            'ascender': Ptypo.getParam('ascender', 'antique-font'),
+            'descender': Ptypo.getParam('descender', 'antique-font')
         };
     }
 
     let checkIfCorrect = (gameindex) => {
         let gameparam = gamePositions[gameindex];
         let currentparam = getParams();
+        console.log(Math.abs(gameparam.ascender - currentparam.ascender));
+        console.log(Math.abs(gameparam.descender - currentparam.descender));
         if (
-            Math.abs(gameparam.width - currentparam.width) < 0.55 &&
-            Math.abs(gameparam.xHeight - currentparam.xHeight) < 60 &&
-            Math.abs(gameparam.thickness - currentparam.thickness) < 30 &&
-            Math.abs(gameparam.slant - currentparam.slant) < 5
+            Math.abs(gameparam.width - currentparam.width) < 0.60 &&
+            Math.abs(gameparam.xHeight - currentparam.xHeight) < 80 &&
+            Math.abs(gameparam.ascender - currentparam.ascender) < 80 &&
+            Math.abs(gameparam.descender - currentparam.descender) < 80 &&
+            Math.abs(gameparam.slant - currentparam.slant) < 8
         ) {
             return true;
         } else return false;
